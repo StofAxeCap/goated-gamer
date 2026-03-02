@@ -6,6 +6,7 @@ import LeaderboardsSection from "./components/sections/LeaderboardsSection";
 import NftsSection from "./components/sections/NftsSection";
 import TokenSection from "./components/sections/TokenSection";
 import TournamentsSection from "./components/sections/TournamentsSection";
+import { useInternetIdentity } from "./hooks/useInternetIdentity";
 
 const INITIAL_MSGS = [
   {
@@ -36,10 +37,13 @@ const INITIAL_MSGS = [
 
 export default function GoatedGamerHub() {
   const [sec, setSec] = useState("games");
-  const [loggedIn, setLoggedIn] = useState(false);
   const [mobMenu, setMobMenu] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [msgs, setMsgs] = useState(INITIAL_MSGS);
+
+  const { identity, login, clear, isLoggingIn, isInitializing } =
+    useInternetIdentity();
+  const loggedIn = !!identity;
 
   useEffect(() => {
     const fn = () => setScrollY(window.scrollY);
@@ -172,7 +176,8 @@ export default function GoatedGamerHub() {
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <button
               type="button"
-              onClick={() => setLoggedIn(!loggedIn)}
+              onClick={() => (loggedIn ? clear() : login())}
+              disabled={isLoggingIn || isInitializing}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -180,7 +185,9 @@ export default function GoatedGamerHub() {
                 padding: "10px 20px",
                 borderRadius: "10px",
                 border: loggedIn ? "1px solid #10B98130" : "none",
-                cursor: "pointer",
+                cursor:
+                  isLoggingIn || isInitializing ? "not-allowed" : "pointer",
+                opacity: isLoggingIn || isInitializing ? 0.7 : 1,
                 background: loggedIn
                   ? "linear-gradient(135deg,#10B98120,#10B98108)"
                   : "linear-gradient(135deg,#F59E0B,#F97316)",
@@ -191,7 +198,9 @@ export default function GoatedGamerHub() {
                 letterSpacing: "1.5px",
               }}
             >
-              {loggedIn ? (
+              {isLoggingIn || isInitializing ? (
+                "..."
+              ) : loggedIn ? (
                 <>
                   <span
                     style={{
@@ -493,9 +502,7 @@ export default function GoatedGamerHub() {
 
       {/* SECTIONS */}
       {sec === "games" && <GamesSection />}
-      {sec === "leaderboards" && (
-        <LeaderboardsSection setLoggedIn={setLoggedIn} />
-      )}
+      {sec === "leaderboards" && <LeaderboardsSection setLoggedIn={() => {}} />}
       {sec === "tournaments" && <TournamentsSection />}
       {sec === "nfts" && <NftsSection />}
       {sec === "token" && <TokenSection />}

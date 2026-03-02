@@ -5,12 +5,14 @@ import {
   TIERS,
   TRACKED_GAMES,
 } from "../../data/gameData";
+import { useInternetIdentity } from "../../hooks/useInternetIdentity";
 import { getTier } from "../../utils/tierUtils";
 import PlayerCard from "../PlayerCard";
 
 export default function LeaderboardsSection({
-  setLoggedIn,
+  setLoggedIn: _setLoggedIn,
 }: { setLoggedIn: (v: boolean) => void }) {
+  const { login } = useInternetIdentity();
   const [lbGame, setLbGame] = useState("All Games");
   const [lbTab, setLbTab] = useState("rankings");
   const [expandedPlayer, setExpandedPlayer] = useState<string | null>(null);
@@ -497,7 +499,7 @@ export default function LeaderboardsSection({
             </p>
             <button
               type="button"
-              onClick={() => setLoggedIn(true)}
+              onClick={() => login()}
               style={{
                 padding: "14px 36px",
                 borderRadius: "10px",

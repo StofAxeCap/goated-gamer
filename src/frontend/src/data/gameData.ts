@@ -408,6 +408,38 @@ export const NFT_COLLECTIONS = [
   },
 ];
 
+export const TOKEN_DATA = {
+  symbol: "$GOATED",
+  chain: "ICP",
+  price: "--",
+  marketCap: "--",
+  holders: "--",
+  totalSupply: "1,000,000,000",
+  viewLink: "https://info.icpswap.com/token/details/goated",
+  useCases: [
+    {
+      icon: "⚔️",
+      title: "Tournament Entry",
+      desc: "Pay entry fees and win prizes in $GOATED",
+    },
+    {
+      icon: "🗳️",
+      title: "DAO Voting",
+      desc: "Vote on game features, tournaments, and community decisions",
+    },
+    {
+      icon: "🎁",
+      title: "Rewards",
+      desc: "Earn $GOATED for wins, kills, and daily play",
+    },
+    {
+      icon: "🛒",
+      title: "Marketplace",
+      desc: "Buy, sell, and trade in-game items and NFTs",
+    },
+  ],
+};
+
 export const TOURNAMENTS = [
   {
     id: 1,
